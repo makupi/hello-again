@@ -1,7 +1,3 @@
-import os
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project_name.settings")
-
 from datetime import timezone
 from faker import Faker
 
@@ -23,6 +19,7 @@ def run():
             address=address,
             first_name=fake.first_name(),
             last_name=fake.last_name(),
+            gender=fake.passport_gender(),
             customer_id=fake.random_number(digits=10),
             phone_number=fake.phone_number(),
             birthday=fake.date_of_birth(),

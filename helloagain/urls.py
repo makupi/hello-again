@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from crm.views import list_appusers
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('crm/appusers', list_appusers)
 ]

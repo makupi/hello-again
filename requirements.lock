@@ -12,8 +12,11 @@ asgiref==3.8.1
     # via django
 django==5.0.6
     # via django-extensions
+    # via django-filter
     # via hello-again
 django-extensions==3.2.3
+    # via hello-again
+django-filter==24.2
     # via hello-again
 faker==25.3.0
     # via hello-again

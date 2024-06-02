@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>App Users</title>
+</head>
+
+<body>
+    <h1>Users</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Customer ID</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Points</th>
+                <th>Created</th>
+                <th>Last Activity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appuser in page_obj %}
+            <tr>
+                <td>{{ appuser.id}}</td>
+                <td>{{ appuser.first_name }}</td>
+                <td>{{ appuser.last_name }}</td>
+                <td>{{ appuser.gender }}</td>
+                <td>{{ appuser.customer_id }}</td>
+                <td>{{ appuser.phone_number }}</td>
+                <td>{{ appuser.address.street }} {{ appuser.address.street_number }}, {{ appuser.address.city }} {{ appuser.address.city_code }}, {{ appuser.address.country }}</td>
+                <td>{{ appuser.customerrelationship_set.first.points }}</td>
+                <td>{{ appuser.created_at }}</td>
+                <td>{{ appuser.customerrelationship_set.first.last_activity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
