@@ -3,6 +3,8 @@ from django.shortcuts import render
 from crm.models import AppUser
 import django_filters
 
+from silk.profiling.profiler import silk_profile
+
 class AppUserFilter(django_filters.FilterSet):
     class Meta:
         model = AppUser
@@ -17,8 +19,9 @@ class AppUserFilter(django_filters.FilterSet):
         return fields
 
 
+@silk_profile()
 def list_appusers(request):
-    f = AppUserFilter(request.GET, AppUser.objects.select_related('address').prefetch_related("customerrelationship_set").all())
+    f = AppUserFilter(request.GET, AppUser.objects.select_related("address").prefetch_related("customerrelationship_set").all())
 
     qs = f.qs.order_by(request.GET.get("order_by", "first_name"))
 

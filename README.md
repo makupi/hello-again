@@ -49,3 +49,22 @@ results)
     - Load initial list including pagination
 - Now think about performance optimisations and as a bonus, implement them and
 compare them with your initial benchmarks
+
+
+# Performance
+
+Using `silk` profiler
+
+- First thing I noticed is that `Paginator` will count all elements before the actual query, if we're filtering by e.g. `first_name` SQL will have to do a full row scan which results in a rather slow query.
+    - Query: http://127.0.0.1:8000/crm/appusers?first_name=Steve&page=10
+    - Solution: Add indices for commonly filtered columns
+        `CREATE INDEX crm_appuser_first_name ON crm_appuser(first_name);`
+        - Impact: From ~450ms to 20ms spent on queries
+- Django performs **77** queries to load the list, which could impact the performance
+    - Query: http://127.0.0.1:8000/crm/appusers?first_name=Steve&page=10
+    - Solution: Add `select_related("address")`
+        - Impact: Queries reduced from **77** to **52**, average overall time reduced by ~5-10ms
+    - Solution 2: Also add `prefetch_related("customerrelationship_set")`
+        - Impact: Queries increased from **52** to **53**
+        - Note:  Currently this doesn't really have an impact on performance since the database was only populated with a 1:1 relationship between appuser and cr, if there were multiple cr columns per appuser this could provide a bigger impact
+    
